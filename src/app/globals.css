@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  @apply bg-bone text-ink font-body antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid theme('colors.brass');
+  outline-offset: 3px;
+}
+
+.eyebrow {
+  @apply text-xs font-semibold uppercase tracking-[0.2em] text-brass;
+}
