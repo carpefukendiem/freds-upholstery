@@ -1,35 +1,48 @@
-import Link from "next/link";
-import { Hero, Section, ServiceGrid, PhotoGrid, QuoteCta } from "@/components/Blocks";
-import Reviews from "@/components/Reviews";
-import { galleryImages } from "@/data/images";
-import { site } from "@/lib/site";
+import Hero from "@/components/Hero";
+import SectionHeader from "@/components/SectionHeader";
+import ServiceGrid from "@/components/ServiceGrid";
+import PhotoBand from "@/components/PhotoBand";
+import CtaBand from "@/components/CtaBand";
+import ReviewPanel from "@/components/ReviewPanel";
+import { liveHome } from "@/data/images";
+import { yearsOfExpertise } from "@/lib/site";
 
 export default function HomePage() {
+  const years = yearsOfExpertise();
+
   return (
     <>
-      <Hero
-        eyebrow={site.tagline}
-        title="Santa Barbara's Finest Upholstery"
-        intro={`Two generations and a combined 50+ years of hands-on experience, in the same Garden Street shop since ${site.established}. Furniture, boats, restaurants and patios.`}
-        image={galleryImages[0]}
+      <Hero image={liveHome.hero} kicker="Your Upholstery Resource" />
+
+      <section className="mx-auto max-w-content px-5 py-16 md:py-20">
+        <SectionHeader
+          as="h1"
+          eyebrow="We've Got You Covered"
+          title="Santa Barbara's Finest Upholstery"
+        />
+        <ServiceGrid />
+      </section>
+
+      <PhotoBand
+        image={liveHome.galleryBand}
+        eyebrow="Want to see more of our work?"
+        title="See the Full Gallery"
+        ctaHref="/gallery"
+        ctaLabel="See Full Gallery"
       />
 
-      <Section eyebrow="We specialize in a variety of upholstery services" title="What we do">
-        <ServiceGrid />
-      </Section>
+      <CtaBand title={`${years} Years of Expertise`} />
 
-      <Section eyebrow="Recent work" title="A look at the shop">
-        <PhotoGrid images={galleryImages.slice(1, 9)} columns={4} />
-        <Link
-          href="/gallery"
-          className="mt-8 inline-block font-semibold text-brass hover:underline"
-        >
-          See the full gallery →
-        </Link>
-      </Section>
+      <PhotoBand
+        image={liveHome.boatBand}
+        eyebrow="Custom boat upholstery"
+        title="Boat Cushions"
+        subtitle="Sunbrella Fabric"
+        ctaHref="/marine-upholstery"
+        ctaLabel="Learn More"
+      />
 
-      <Reviews />
-      <QuoteCta />
+      <ReviewPanel />
     </>
   );
 }

@@ -3,29 +3,46 @@
 @tailwind utilities;
 
 :root {
-  --font-display: "Playfair Display", Georgia, serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Playfair Display SC", serif;
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-nav: "Poppins", sans-serif;
+  --font-cta: "Montserrat", sans-serif;
+  --font-body: "Lato", sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 }
 
 body {
-  @apply bg-bone text-ink font-body antialiased;
+  @apply bg-white font-body text-ink antialiased;
 }
 
 :focus-visible {
-  outline: 2px solid theme('colors.brass');
+  outline: 2px solid theme("colors.teal.DEFAULT");
   outline-offset: 3px;
 }
 
 .eyebrow {
-  @apply text-xs font-semibold uppercase tracking-[0.2em] text-brass;
+  @apply font-nav text-eyebrow font-semibold uppercase tracking-wide text-charcoal;
+}
+
+.coral-rule {
+  @apply mx-auto mt-4 h-[3px] w-16 bg-coral;
+}
+
+.coral-rule-left {
+  @apply mt-4 h-[3px] w-16 bg-coral;
 }

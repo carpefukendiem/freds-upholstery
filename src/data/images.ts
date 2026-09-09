@@ -1,12 +1,14 @@
 /**
  * Image manifest — every asset used by the Phase 1 rebuild.
  *
- * Images currently live on the GoHighLevel CDN. `assetUrl()` returns the CDN URL
- * by default, or a local /images/... path when NEXT_PUBLIC_LOCAL_IMAGES=true.
+ * `file` is the GoHighLevel source name (jpeg/png). Locally we serve optimized
+ * WebP copies (`/images/{id}.webp`). The CDN URL already requests WebP via f_webp.
  *
  * To go local: run `npm run images:download`, then set NEXT_PUBLIC_LOCAL_IMAGES=true.
  * Do this before the GHL subscription is cancelled or every image on the site dies.
  */
+
+export type Img = { file: string; tenant: string; alt: string };
 
 const CDN = "https://images.leadconnectorhq.com/image/f_webp/q_80/r_1600/u_https://assets.cdn.filesafe.space";
 
@@ -15,8 +17,13 @@ const T2 = "kE4TGUMBTY9IdnbBAXaR"; // secondary tenant (logo, ornaments, some ph
 
 const useLocal = process.env.NEXT_PUBLIC_LOCAL_IMAGES === "true";
 
+/** Local copies are always WebP; GHL source names stay jpeg/png. */
+export function toWebpName(file: string) {
+  return file.replace(/\.(jpe?g|png)$/i, ".webp");
+}
+
 export function assetUrl(tenant: string, file: string): string {
-  if (useLocal) return `/images/${file}`;
+  if (useLocal) return `/images/${toWebpName(file)}`;
   return `${CDN}/${tenant}/media/${file}`;
 }
 
@@ -26,6 +33,50 @@ export const brand = {
   sectionMark: () => assetUrl(T1, "28f3abb0-70cf-402d-86c9-73a65accf11d.png"),
   ogImage: () => assetUrl(T1, "a2089b74-fa50-4d63-8b4d-99c3ed02d5da.png"),
 };
+
+/**
+ * Exact homepage photos from the live GHL site (crawled 2026-09-09).
+ * Service cards, gallery band and boat band stay on these files.
+ */
+export const liveHome = {
+  hero: {
+    file: "6424a22d3354570a60e50f73.jpeg",
+    tenant: T2,
+    alt: "Light grey custom sofa with striped and patterned pillows by Fred's Upholstery",
+  },
+  furniture: {
+    file: "6424b52c33545745ace523df.png",
+    tenant: T2,
+    alt: "Fine furniture upholstery by Fred's Upholstery",
+  },
+  commercial: {
+    file: "406ab115-2f3b-43bd-9447-cb4715932a76.png",
+    tenant: T1,
+    alt: "Commercial restaurant booth upholstery",
+  },
+  outdoor: {
+    file: "3a1daf76-1bd3-4289-acfb-bfb6a0347871.png",
+    tenant: T1,
+    alt: "Outdoor upholstery and pool cushions",
+  },
+  boat: {
+    file: "feefb06c-b68a-4b8c-96ea-cdf6f1282827.png",
+    tenant: T1,
+    alt: "Custom boat upholstery",
+  },
+  galleryBand: {
+    file: "08036331-f709-4606-a09c-a43a73c4596e.png",
+    tenant: T1,
+    alt: "Upholstery work from the Fred's Upholstery gallery",
+  },
+  boatBand: {
+    file: "6424a51b8d0e86f0e1d48027.jpeg",
+    tenant: T2,
+    alt: "Custom boat cushions in Sunbrella fabric",
+  },
+} as const satisfies Record<string, Img>;
+
+export const heroImage = liveHome.hero;
 
 export const furnitureImages = [
   { file: "d356f0fc-3416-4e5d-a78c-1a128d42953d.jpeg", tenant: T1, alt: "Reupholstered fine furniture by Fred's Upholstery in Santa Barbara" },
@@ -40,6 +91,7 @@ export const marineImages = [
   { file: "2a856fac-b519-487e-a3dc-7a69b60b69c0.jpeg", tenant: T1, alt: "Custom boat cushion set" },
   { file: "b3c9aa63-2a40-44a0-bcba-7bc8dfc89d46.jpeg", tenant: T1, alt: "Marine vinyl cushion covers" },
   { file: "cb508f8b-23b8-458c-8d68-85f8a10b47d8.jpeg", tenant: T1, alt: "Boat interior upholstery detail" },
+  { file: "64252f4b8d0e8641a0d4ee78.jpeg", tenant: T2, alt: "Marine upholstery detail from a Santa Barbara boat" },
 ];
 
 export const commercialImages = [
@@ -51,6 +103,7 @@ export const commercialImages = [
   { file: "64268234f2c7c2fdb046b4bc.png", tenant: T2, alt: "Bar stool upholstery for a local venue" },
   { file: "64268234ab3428662051e272.jpeg", tenant: T2, alt: "Upholstered commercial booth seating" },
   { file: "64268234f2c7c2315346b4bb.jpeg", tenant: T2, alt: "Nightclub interior upholstery project" },
+  { file: "642681878f356e1cb3a72a45.png", tenant: T2, alt: "Commercial upholstery project" },
 ];
 
 export const outdoorImages = [
@@ -58,10 +111,20 @@ export const outdoorImages = [
   { file: "f940f63f-6ca0-438b-a7b0-f48287869a86.jpeg", tenant: T1, alt: "Chaise lounge cushions recovered for a Santa Barbara pool deck" },
   { file: "0550eb9c-3db8-4f05-8146-6a55394c08a4.jpeg", tenant: T1, alt: "Custom outdoor furniture cushions" },
   { file: "d07835e5-f76b-47b9-87c5-2ebd5d98162d.jpeg", tenant: T1, alt: "Poolside cushion set" },
+  { file: "643117950b9052134c76cbf1.jpeg", tenant: T2, alt: "Outdoor furniture cushions recovered in Santa Barbara" },
 ];
+
+export const contactImage: Img = {
+  file: "642646cbf2c7c2e7c046915e.jpeg",
+  tenant: T2,
+  alt: "Fred's Upholstery shop on Garden Street in Santa Barbara",
+};
 
 export const aboutImages = [
   { file: "bdb12238-dfce-4c6c-aa7c-f73398bbf78b.jpeg", tenant: T1, alt: "Inside the Fred's Upholstery workshop on Garden Street" },
+  { file: "64259f68f2c7c20d3045aa90.jpeg", tenant: T2, alt: "Fred's Upholstery shop portrait" },
+  { file: "81d936f2-22e3-4878-b780-986cd831cbec.jpeg", tenant: T1, alt: "Work in the Fred's Upholstery studio" },
+  { file: "6424b5863354573704e523ed.png", tenant: T2, alt: "Upholstery craftsmanship detail" },
   { file: "75c0269e-1668-4251-9fa8-6f560d4cc67a.png", tenant: T1, alt: "Upholstery work in progress" },
   { file: "e8c86064-23b9-4e09-8b61-69030cff17f6.jpeg", tenant: T1, alt: "Hand-finished upholstery detail" },
   { file: "dcc06146-a3c4-4b58-910e-8119411a0cea.jpeg", tenant: T1, alt: "Completed reupholstery project" },
@@ -135,6 +198,8 @@ export const galleryImages = [
 
 /** Flat list of every asset, used by scripts/download-images.mjs */
 export const allAssets = [
+  ...Object.values(liveHome).map((i) => ({ tenant: i.tenant, file: i.file })),
+  { tenant: T2, file: contactImage.file },
   { tenant: T2, file: "64249b8d335457a8a2e50668.png" },
   { tenant: T2, file: "642534e75cd63e4a9b0ecee6.png" },
   { tenant: T1, file: "28f3abb0-70cf-402d-86c9-73a65accf11d.png" },

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Section } from "@/components/Blocks";
+import { Hero, Section } from "@/components/Blocks";
+import { contactImage } from "@/data/images";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -11,7 +12,14 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <Section eyebrow="Get in touch" title="Contact us">
+    <>
+      <Hero
+        eyebrow="Get in touch"
+        title="Contact us"
+        intro="Visit the shop on Garden Street, or text a photo for a free quote."
+        image={contactImage}
+      />
+      <Section>
       <div className="grid gap-12 md:grid-cols-2">
         <div>
           <h3 className="font-display text-2xl">Visit the shop</h3>
@@ -64,5 +72,6 @@ export default function ContactPage() {
         </div>
       </div>
     </Section>
+    </>
   );
 }

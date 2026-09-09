@@ -62,6 +62,11 @@ export const site = {
   ],
 } as const;
 
+/** Always derive the year-count from `site.established`. Never hardcode 32 / 36 / 40. */
+export function yearsOfExpertise(now = new Date().getFullYear()) {
+  return now - site.established;
+}
+
 export const nav = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    formats: ["image/webp"],
     remotePatterns: [
       { protocol: "https", hostname: "images.leadconnectorhq.com" },
       { protocol: "https", hostname: "assets.cdn.filesafe.space" },
@@ -20,7 +21,6 @@ const nextConfig = {
       { source: "/fine-furniture-reupholstery-santa-barbara", destination: "/upholstery", permanent: true },
       { source: "/marine-reupholstery-santa-barbara", destination: "/marine-upholstery", permanent: true },
       { source: "/commercial-upholstery-santa-barbara", destination: "/commercial-upholstery", permanent: true },
-      { source: "/commercial-upholstery", destination: "/commercial-upholstery", permanent: false },
       { source: "/outdoor-furniture-upholstery", destination: "/outdoor-upholstery", permanent: true },
     ];
   },

@@ -5,8 +5,7 @@ import { site } from "@/lib/site";
 
 /**
  * Phase 1: posts to /api/quote, which currently just validates and logs.
- * Wire this to the GoHighLevel inbound-webhook URL (or whatever CRM replaces it)
- * before launch — see README "Connecting the quote form".
+ * Leave QUOTE_WEBHOOK_URL unset until a CRM endpoint is supplied.
  */
 export default function QuoteForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -29,9 +28,9 @@ export default function QuoteForm() {
 
   if (status === "sent") {
     return (
-      <div className="rounded-sm border border-sand bg-white p-8">
-        <h3 className="font-display text-2xl">Request received</h3>
-        <p className="mt-3 text-ink/75">
+      <div className="border border-smoke bg-white p-8">
+        <h3 className="font-heading text-2xl">Request received</h3>
+        <p className="mt-3 text-charcoal">
           We&apos;ll get back to you with an estimate, usually within 12 hours. If it&apos;s urgent,
           call {site.quotePhone}.
         </p>
@@ -39,7 +38,8 @@ export default function QuoteForm() {
     );
   }
 
-  const field = "mt-1 w-full rounded-sm border border-sand bg-white px-4 py-3 focus:border-brass";
+  const field =
+    "mt-1 w-full rounded-none border border-stone bg-white px-4 py-3 font-body text-ink focus:border-teal";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
@@ -64,6 +64,7 @@ export default function QuoteForm() {
             Choose a service
           </option>
           <option>Furniture upholstery</option>
+          <option>Furniture repair</option>
           <option>Boat / marine upholstery</option>
           <option>Commercial upholstery</option>
           <option>Outdoor / patio cushions</option>
@@ -76,7 +77,7 @@ export default function QuoteForm() {
       </label>
 
       {status === "error" && (
-        <p className="rounded-sm border border-red-300 bg-red-50 p-4 text-red-800">
+        <p className="border border-coral bg-white p-4 text-ink">
           That didn&apos;t send. Call or text {site.quotePhone} and we&apos;ll take it from there.
         </p>
       )}
@@ -84,11 +85,11 @@ export default function QuoteForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="rounded-sm bg-deep px-7 py-3.5 font-semibold text-bone transition-colors hover:bg-brass disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-full bg-teal-btn px-7 py-3.5 font-cta text-sm font-bold uppercase tracking-wide text-white transition-transform duration-200 motion-safe:hover:scale-[1.03] disabled:opacity-60"
       >
         {status === "sending" ? "Sending…" : "Request my quote"}
       </button>
-      <p className="text-sm text-ink/60">
+      <p className="text-sm text-charcoal">
         Photos help a lot. After you submit, text them to {site.quotePhone}.
       </p>
     </form>
